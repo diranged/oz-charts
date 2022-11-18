@@ -1,0 +1,40 @@
+name: Pull Request Verification
+on:
+  pull_request:
+    # By default, a workflow only runs when a pull_request's activity type is opened, synchronize, or reopened. We
+    # explicity override here so that PR titles are re-linted when the PR text content is edited.
+    #
+    # Possible values: https://help.github.com/en/actions/reference/events-that-trigger-workflows#pull-request-event-pull_request
+    types: [opened, edited, reopened]
+
+jobs:
+  pr-lint:
+    runs-on: ubuntu-latest
+    steps:
+      # Only verify the PR format if we are touching files in the `charts/` directory.
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            src:
+              - charts/**
+
+      - if: steps.changes.outputs.src == 'true'
+        uses: morrisoncole/pr-lint-action@v1.5.0
+        with:
+          title-regex: '^\[.*\].*'
+          on-failed-regex-fail-action: true
+          on-failed-regex-request-changes: true
+          on-failed-regex-create-review: true
+          on-failed-regex-comment: |-
+            Please make sure that your title has a prefixed chart-name wrapped in brackets. For example:
+                ```
+                [projects] Added my new application
+                ```
+
+            If your PR touches multiple charts, try something like this please:
+                ```
+                [projects/istio/argocd] I updated a bunch of charts
+                ```
+
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
