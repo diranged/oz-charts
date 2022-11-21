@@ -53,3 +53,35 @@ metricsService:
 
 # -- (`string`) Configures the KUBERNETES_CLUSTER_DOMAIN environment variable.
 kubernetesClusterDomain: cluster.local
+
+rbac:
+  # -- (`bool`) If true, the chart will create aggregated roles for accessing
+  # the access templates and access request resources.
+  create: true
+
+  viewAccess:
+    # -- (`map`) These labels are applied to the "view-access" ClusterRole and
+    # are used to define how to aggregate up the privileges to your RBAC
+    # system. The default settings here are reasonably sane.
+    aggregateTo:
+      rbac.authorization.k8s.io/aggregate-to-view: "true"
+      rbac.authorization.k8s.io/aggregate-to-edit: "true"
+      rbac.authorization.k8s.io/aggregate-to-admin: "true"
+
+  templateManager:
+    # -- (`map`) These labels are applied to the "template-manager"
+    # ClusterRole and are used to define how to aggregate up the privileges
+    # for managing Access Templates.
+    aggregateTo:
+      rbac.authorization.k8s.io/aggregate-to-edit: "true"
+      rbac.authorization.k8s.io/aggregate-to-admin: "true"
+
+  requestAccess:
+    # -- (`map`) These labels are applied to the "request-access" ClusterRole
+    # and are intended to grant developers the permission to make an Access
+    # Request. These can be fairly widely granted because the true permissions
+    # for who has access to use an Access Request are defined in the Access
+    # Template resouces themselves.
+    aggregateTo:
+      rbac.authorization.k8s.io/aggregate-to-edit: "true"
+      rbac.authorization.k8s.io/aggregate-to-admin: "true"
