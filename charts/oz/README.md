@@ -1,6 +1,6 @@
 # oz
 
-![Version: 0.0.7](https://img.shields.io/badge/Version-0.0.7-informational?style=flat-square) ![AppVersion: sha-5ce6861](https://img.shields.io/badge/AppVersion-sha--5ce6861-informational?style=flat-square)
+![Version: 0.0.8](https://img.shields.io/badge/Version-0.0.8-informational?style=flat-square) ![AppVersion: sha-5ce6861](https://img.shields.io/badge/AppVersion-sha--5ce6861-informational?style=flat-square)
 
 Installation for the Oz RBAC Controller
 
@@ -45,3 +45,7 @@ Kubernetes: `>=1.22.0-0`
 | metricsService.ports[0].protocol | string | `"TCP"` |  |
 | metricsService.ports[0].targetPort | string | `"https"` |  |
 | metricsService.type | string | `"ClusterIP"` |  |
+| rbac.create | `bool` | `true` | If true, the chart will create aggregated roles for accessing the access templates and access request resources. |
+| rbac.requestAccess.aggregateTo | `map` | `{"rbac.authorization.k8s.io/aggregate-to-admin":"true","rbac.authorization.k8s.io/aggregate-to-edit":"true"}` | These labels are applied to the "request-access" ClusterRole and are intended to grant developers the permission to make an Access Request. These can be fairly widely granted because the true permissions for who has access to use an Access Request are defined in the Access Template resouces themselves. |
+| rbac.templateManager.aggregateTo | `map` | `{"rbac.authorization.k8s.io/aggregate-to-admin":"true","rbac.authorization.k8s.io/aggregate-to-edit":"true"}` | These labels are applied to the "template-manager" ClusterRole and are used to define how to aggregate up the privileges for managing Access Templates. |
+| rbac.viewAccess.aggregateTo | `map` | `{"rbac.authorization.k8s.io/aggregate-to-admin":"true","rbac.authorization.k8s.io/aggregate-to-edit":"true","rbac.authorization.k8s.io/aggregate-to-view":"true"}` | These labels are applied to the "view-access" ClusterRole and are used to define how to aggregate up the privileges to your RBAC system. The default settings here are reasonably sane. |
