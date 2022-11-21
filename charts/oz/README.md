@@ -1,6 +1,6 @@
 # oz
 
-![Version: 0.0.6](https://img.shields.io/badge/Version-0.0.6-informational?style=flat-square) ![AppVersion: 0.0.0-rc1](https://img.shields.io/badge/AppVersion-0.0.0--rc1-informational?style=flat-square)
+![Version: 0.0.7](https://img.shields.io/badge/Version-0.0.7-informational?style=flat-square) ![AppVersion: sha-5ce6861](https://img.shields.io/badge/AppVersion-sha--5ce6861-informational?style=flat-square)
 
 Installation for the Oz RBAC Controller
 
@@ -36,11 +36,12 @@ Kubernetes: `>=1.22.0-0`
 | controllerManager.manager.resources.limits.memory | string | `"128Mi"` |  |
 | controllerManager.manager.resources.requests.cpu | string | `"10m"` |  |
 | controllerManager.manager.resources.requests.memory | string | `"64Mi"` |  |
+| controllerManager.nodeSelector | `map` | `nil` | A nodeSepector to apply to the controller-manager pods. See https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/. |
 | controllerManager.replicas | `int` | `1` | Number of Oz Controllers to run. If more than one is used, leader-election is used to ensure only one controller is operating at a time. |
+| controllerManager.tolerations | `[]map]` | `[]` | A list of Tolerations that will be applied to the controller-manager pods. See https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/. |
 | kubernetesClusterDomain | `string` | `"cluster.local"` | Configures the KUBERNETES_CLUSTER_DOMAIN environment variable. |
 | metricsService.ports[0].name | string | `"https"` |  |
 | metricsService.ports[0].port | int | `8443` |  |
 | metricsService.ports[0].protocol | string | `"TCP"` |  |
 | metricsService.ports[0].targetPort | string | `"https"` |  |
 | metricsService.type | string | `"ClusterIP"` |  |
-

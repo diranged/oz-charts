@@ -1,24 +1,24 @@
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.10.0
   creationTimestamp: null
-  name: execaccesstemplates.crds.wizardofoz.co
+  name: podaccessrequests.crds.wizardofoz.co
 spec:
   group: crds.wizardofoz.co
   names:
-    kind: ExecAccessTemplate
-    listKind: ExecAccessTemplateList
-    plural: execaccesstemplates
-    singular: execaccesstemplate
+    kind: PodAccessRequest
+    listKind: PodAccessRequestList
+    plural: podaccessrequests
+    singular: podaccessrequest
   scope: Namespaced
   versions:
   - name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: ExecAccessTemplate is the Schema for the execaccesstemplates
-          API
+        description: PodAccessRequest is the Schema for the accessrequests API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -33,63 +33,35 @@ spec:
           metadata:
             type: object
           spec:
-            description: ExecAccessTemplateSpec defines the desired state of ExecAccessTemplate
+            description: PodAccessRequestSpec defines the desired state of AccessRequest
             properties:
-              allowedGroups:
-                description: AllowedGroups lists out the groups (in string name form)
-                  that will be allowed to Exec into the target pod.
-                items:
-                  type: string
-                type: array
-              defaultDuration:
-                default: 1h
-                description: "DefaultDuration sets the default time that an `ExecAccessRequest`
-                  resource will live. Must be set below MaxDuration. \n Valid time
-                  units are \"ns\", \"us\" (or \"µs\"), \"ms\", \"s\", \"m\", \"h\"."
+              duration:
+                description: "Duration sets the length of time from the `spec.creationTimestamp`
+                  that this object will live. After the time has expired, the resouce
+                  will be automatically deleted on the next reconcilliation loop.
+                  \n If omitted, the spec.defautlDuration from the ExecAccessTemplate
+                  is used. \n Valid time units are \"s\", \"m\", \"h\"."
+                pattern: ^[0-9]+(s|m|h)$
                 type: string
-              maxDuration:
-                default: 24h
-                description: "MaxDuration sets the maximum duration that an `ExecAccessRequest`
-                  resource can request to stick around. \n Valid time units are \"ns\",
-                  \"us\" (or \"µs\"), \"ms\", \"s\", \"m\", \"h\"."
+              templateName:
+                description: Defines the name of the `ExecAcessTemplate` that should
+                  be used to grant access to the target resource.
                 type: string
-              targetRef:
-                description: TargetRef provides a pattern for referencing objects
-                  from another API in a generic way.
-                properties:
-                  apiVersion:
-                    description: "Defines the \"APIVersion\" of the resource being
-                      referred to. Eg, \"apps/v1\". \n TODO: Figure out how to regex
-                      validate that it has a \"/\" in it"
-                    type: string
-                  kind:
-                    description: Defines the "Kind" of resource being referred to.
-                    enum:
-                    - Deployment
-                    - DaemonSet
-                    - StatefulSet
-                    type: string
-                  name:
-                    description: Defines the "metadata.Name" of the target resource.
-                    type: string
-                required:
-                - apiVersion
-                - kind
-                - name
-                type: object
             required:
-            - allowedGroups
-            - defaultDuration
-            - maxDuration
-            - targetRef
+            - templateName
             type: object
           status:
-            description: ExecAccessTemplateStatus is the core set of status fields
-              that we expect to be in each and every one of our template (AccessTemplate,
-              ExecAccessTemplate, etc) resources.
+            description: PodAccessRequestStatus defines the observed state of AccessRequest
             properties:
+              accessMessage:
+                description: "AccessMessage is used to describe to the user how they
+                  can make use of their temporary access request. Eg, for a PodAccessTemplate
+                  the value set here would be something like: \n \"Access Graned,
+                  connect to your pod with: kubectl exec -ti -n namespace pod-xyz
+                  -- /bin/bash\""
+                type: string
               conditions:
-                description: Conditions represent the latest state of the resource
+                description: Current status of the Access Template
                 items:
                   description: "Condition contains details for one aspect of the current
                     state of this API Resource. --- This struct is intended for direct
@@ -157,6 +129,9 @@ spec:
                   - type
                   type: object
                 type: array
+              podName:
+                description: The Target Pod Name where access has been granted
+                type: string
               ready:
                 description: Simple boolean to let us know if the resource is ready
                   for use or not

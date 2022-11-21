@@ -1,23 +1,24 @@
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.10.0
   creationTimestamp: null
-  name: accessrequests.crds.wizardofoz.co
+  name: execaccessrequests.crds.wizardofoz.co
 spec:
   group: crds.wizardofoz.co
   names:
-    kind: AccessRequest
-    listKind: AccessRequestList
-    plural: accessrequests
-    singular: accessrequest
+    kind: ExecAccessRequest
+    listKind: ExecAccessRequestList
+    plural: execaccessrequests
+    singular: execaccessrequest
   scope: Namespaced
   versions:
   - name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: AccessRequest is the Schema for the accessrequests API
+        description: ExecAccessRequest is the Schema for the execaccessrequests API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -32,7 +33,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: AccessRequestSpec defines the desired state of AccessRequest
+            description: ExecAccessRequestSpec defines the desired state of ExecAccessRequest
             properties:
               duration:
                 description: "Duration sets the length of time from the `spec.creationTimestamp`
@@ -42,6 +43,11 @@ spec:
                   is used. \n Valid time units are \"ns\", \"us\" (or \"µs\"), \"ms\",
                   \"s\", \"m\", \"h\"."
                 type: string
+              targetPod:
+                description: TargetPod is used to explicitly define the target pod
+                  that the Exec privilges should be granted to. If not supplied, then
+                  a random pod is chosen.
+                type: string
               templateName:
                 description: Defines the name of the `ExecAcessTemplate` that should
                   be used to grant access to the target resource.
@@ -50,8 +56,15 @@ spec:
             - templateName
             type: object
           status:
-            description: AccessRequestStatus defines the observed state of AccessRequest
+            description: ExecAccessRequestStatus defines the observed state of ExecAccessRequest
             properties:
+              accessMessage:
+                description: "AccessMessage is used to describe to the user how they
+                  can make use of their temporary access request. Eg, for a PodAccessTemplate
+                  the value set here would be something like: \n \"Access Graned,
+                  connect to your pod with: kubectl exec -ti -n namespace pod-xyz
+                  -- /bin/bash\""
+                type: string
               conditions:
                 description: Current status of the Access Template
                 items:
