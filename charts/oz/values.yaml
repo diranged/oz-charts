@@ -4,6 +4,14 @@ controllerManager:
   # time.
   replicas: 1
 
+  # -- (`[]map]`) A list of Tolerations that will be applied to the
+  # controller-manager pods. See https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/.
+  tolerations: []
+
+  # -- (`map`) A nodeSepector to apply to the controller-manager pods. See
+  # https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/.
+  nodeSelector:
+
   manager:
     image:
       # -- (`string`) Docker Image repository and name to use for the controller.
