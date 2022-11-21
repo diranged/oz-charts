@@ -12,8 +12,8 @@ rules:
     resources:
       - execaccessrequests
       - execaccesstemplates
-      - podcaccessrequests
-      - podcaccesstemplates
+      - podaccessrequests
+      - podaccesstemplates
     verbs:
       - get
       - list
@@ -30,7 +30,7 @@ rules:
       - crds.wizardofoz.co
     resources:
       - execaccesstemplates
-      - podcaccesstemplates
+      - podaccesstemplates
     verbs:
       - create
       - delete
@@ -51,7 +51,7 @@ rules:
       - crds.wizardofoz.co
     resources:
       - execaccessrequests
-      - podcaccessrequests
+      - podaccesstemplates
     verbs:
       - create
       - get
