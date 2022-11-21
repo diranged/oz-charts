@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: sha-5ce6861
 name: oz
 description: Installation for the Oz RBAC Controller
-version: 0.0.9
+version: 0.0.10
 kubeVersion: ">=1.22.0-0"
 home: https://github.com/diranged/oz
 sources:
