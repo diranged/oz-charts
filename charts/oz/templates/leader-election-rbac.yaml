@@ -8,7 +8,6 @@ metadata:
     app.kubernetes.io/instance: leader-election-role
     app.kubernetes.io/name: role
     app.kubernetes.io/part-of: oz
-    app.kubernets.io/managed-by: kustomize
   {{- include "oz.labels" . | nindent 4 }}
 rules:
 - apiGroups:
