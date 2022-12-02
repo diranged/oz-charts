@@ -4,6 +4,7 @@ metadata:
   name: deployment-example
   annotations:
     "helm.sh/hook": test
+    "helm.sh/hook-weight": "0"
 spec:
   accessConfig:
     maxDuration: 2h

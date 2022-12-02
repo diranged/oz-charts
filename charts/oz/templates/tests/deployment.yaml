@@ -4,6 +4,7 @@ metadata:
   name: example
   annotations:
     "helm.sh/hook": test
+    "helm.sh/hook-weight": "-1"
 spec:
   replicas: 1
   selector:
