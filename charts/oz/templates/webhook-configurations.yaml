@@ -54,7 +54,9 @@ webhooks:
     resources:
     - podaccessrequests
   sideEffects: None
+
 ---
+
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
@@ -87,6 +89,7 @@ webhooks:
     resources:
     - execaccessrequests
   sideEffects: None
+
 - admissionReviewVersions:
   - v1
   clientConfig:
@@ -109,4 +112,30 @@ webhooks:
     resources:
     - podaccessrequests
   sideEffects: None
+
+{{- if .Values.webhook.podExecWatcher.create }}
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: {{ include "oz.fullname" . }}-controller-manager-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /watch-v1-pod
+      port: {{ $svc.port }}
+  failurePolicy: {{ .Values.webhook.podExecWatcher.failurePolicy }}
+  name: vpod.kb.io
+  rules:
+  - apiGroups:
+    - ""
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    - CONNECT
+    resources:
+    - pods/exec
+    - pods/attach
+  sideEffects: None
+{{- end }}
 {{- end }}
