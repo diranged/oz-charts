@@ -86,6 +86,24 @@ webhook:
   # populate the `Secret` yourself.
   certManager: true
 
+  # Settings to configure the optional
+  # [`PodExecWatcher`](https://github.com/diranged/oz/blob/main/controllers/pod_watcher.go).
+  # This additional ValidatingWebhookConfiguration tracks `CREATE`, `UPDATE`
+  # and `CONNECT` calls to the `pods/exec` and `pods/attach` resources. The
+  # purpose is to provide audit logging and (in the future) additional identity
+  # verification to a Pod when a person logs into the pod via the `kubectl
+  # exec` command.
+  #
+  # This is an optional feature - but disabling it may limit the functionality
+  # of the Oz controller.
+  podExecWatcher:
+    # -- (`bool`) Whether or not to create the webhook configuration.
+    create: true
+
+    # -- (`string`) Either `Fail` or `Ignore`. Defines what happens to an
+    # `Exec` request if the Webhook endpoint fails to respond.
+    failurePolicy: Fail
+
 # -- (`string`) Configures the KUBERNETES_CLUSTER_DOMAIN environment variable.
 kubernetesClusterDomain: cluster.local
 
