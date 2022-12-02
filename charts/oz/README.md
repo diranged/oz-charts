@@ -1,6 +1,6 @@
 # oz
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![AppVersion: 0.0.0-rc7](https://img.shields.io/badge/AppVersion-0.0.0--rc7-informational?style=flat-square)
+![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-informational?style=flat-square) ![AppVersion: 0.0.0-rc7](https://img.shields.io/badge/AppVersion-0.0.0--rc7-informational?style=flat-square)
 
 Installation for the Oz RBAC Controller
 
@@ -53,7 +53,7 @@ Kubernetes: `>=1.22.0-0`
 | webhook.create | `bool` | `true` | Whether or not to create the `Certificate` and `ValidatingWebhookConfiguration` and `MutatingWebhookConfiguration` resources or not. If not, significant audit and granular permissions functionality of *Oz* will be lost. |
 | webhook.secret.name | `string` | `"oz-serving-cert"` | Configures the name of a Secret (type: `kubernetes.io/tls`) within the Namespace that holds a valid private key, certificate and CA bundle. The default behavior is for this to be created by a third party plugin (https://cert-manager.io/) that is extremely common and considered the defacto standard for certificate management within Kubernetes. |
 | webhookService.ports[0].name | string | `"https"` |  |
-| webhookService.ports[0].port | int | `9443` |  |
+| webhookService.ports[0].port | int | `443` |  |
 | webhookService.ports[0].protocol | string | `"TCP"` |  |
 | webhookService.ports[0].targetPort | string | `"webhook-server"` |  |
 | webhookService.type | string | `"ClusterIP"` |  |

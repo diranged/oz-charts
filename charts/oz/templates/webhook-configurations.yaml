@@ -1,11 +1,13 @@
 {{- if .Values.webhook.create }}
+{{- $svc := index .Values.webhookService.ports 0 }}
+
 ---
 apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
 metadata:
   name: {{ include "oz.fullname" . }}-webhook
   annotations:
-    cert-manager.io/inject-ca-from: {{ include "oz.fullname" . }}-serving-cert
+    cert-manager.io/inject-ca-from: {{ .Release.Namespace }}/{{ include "oz.fullname" . }}-serving-cert
   labels:
     app.kubernetes.io/component: webhook
     {{- include "oz.labels" . | nindent 4 }}
@@ -17,6 +19,7 @@ webhooks:
       name: {{ include "oz.fullname" . }}-controller-manager-webhook-service
       namespace: {{ .Release.Namespace }}
       path: /mutate-crds-wizardofoz-co-v1alpha1-execaccessrequest
+      port: {{ $svc.port }}
   failurePolicy: Fail
   name: mexecaccessrequest.kb.io
   rules:
@@ -37,6 +40,7 @@ webhooks:
       name: {{ include "oz.fullname" . }}-controller-manager-webhook-service
       namespace: {{ .Release.Namespace }}
       path: /mutate-crds-wizardofoz-co-v1alpha1-podaccessrequest
+      port: {{ $svc.port }}
   failurePolicy: Fail
   name: mpodaccessrequest.kb.io
   rules:
@@ -56,7 +60,7 @@ kind: ValidatingWebhookConfiguration
 metadata:
   name: {{ include "oz.fullname" . }}-webhook
   annotations:
-    cert-manager.io/inject-ca-from: {{ include "oz.fullname" . }}-serving-cert
+    cert-manager.io/inject-ca-from: {{ .Release.Namespace }}/{{ include "oz.fullname" . }}-serving-cert
   labels:
     app.kubernetes.io/component: webhook
     {{- include "oz.labels" . | nindent 4 }}
@@ -68,6 +72,7 @@ webhooks:
       name: {{ include "oz.fullname" . }}-controller-manager-webhook-service
       namespace: {{ .Release.Namespace }}
       path: /validate-crds-wizardofoz-co-v1alpha1-execaccessrequest
+      port: {{ $svc.port }}
   failurePolicy: Fail
   name: vexecaccessrequest.kb.io
   rules:
@@ -89,6 +94,7 @@ webhooks:
       name: {{ include "oz.fullname" . }}-controller-manager-webhook-service
       namespace: {{ .Release.Namespace }}
       path: /validate-crds-wizardofoz-co-v1alpha1-podaccessrequest
+      port: {{ $svc.port }}
   failurePolicy: Fail
   name: vpodaccessrequest.kb.io
   rules:
