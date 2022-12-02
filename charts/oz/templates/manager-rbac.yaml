@@ -174,7 +174,6 @@ metadata:
     app.kubernetes.io/component: rbac
     app.kubernetes.io/created-by: oz
     app.kubernetes.io/instance: manager-rolebinding
-    app.kubernetes.io/managed-by: kustomize
     app.kubernetes.io/name: clusterrolebinding
     app.kubernetes.io/part-of: oz
   {{- include "oz.labels" . | nindent 4 }}

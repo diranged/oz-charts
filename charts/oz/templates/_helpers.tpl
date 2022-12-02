@@ -35,6 +35,8 @@ Common labels
 */}}
 {{- define "oz.labels" -}}
 helm.sh/chart: {{ include "oz.chart" . }}
+app.kubernetes.io/created-by: oz
+app.kubernetes.io/part-of: oz
 {{ include "oz.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}

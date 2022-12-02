@@ -1,6 +1,6 @@
 # oz
 
-![Version: 0.0.11](https://img.shields.io/badge/Version-0.0.11-informational?style=flat-square) ![AppVersion: 0.0.0-rc3](https://img.shields.io/badge/AppVersion-0.0.0--rc3-informational?style=flat-square)
+![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![AppVersion: 0.0.0-rc7](https://img.shields.io/badge/AppVersion-0.0.0--rc7-informational?style=flat-square)
 
 Installation for the Oz RBAC Controller
 
@@ -49,3 +49,11 @@ Kubernetes: `>=1.22.0-0`
 | rbac.requestAccess.aggregateTo | `map` | `{"rbac.authorization.k8s.io/aggregate-to-admin":"true","rbac.authorization.k8s.io/aggregate-to-edit":"true"}` | These labels are applied to the "request-access" ClusterRole and are intended to grant developers the permission to make an Access Request. These can be fairly widely granted because the true permissions for who has access to use an Access Request are defined in the Access Template resouces themselves. |
 | rbac.templateManager.aggregateTo | `map` | `{"rbac.authorization.k8s.io/aggregate-to-admin":"true","rbac.authorization.k8s.io/aggregate-to-edit":"true"}` | These labels are applied to the "template-manager" ClusterRole and are used to define how to aggregate up the privileges for managing Access Templates. |
 | rbac.viewAccess.aggregateTo | `map` | `{"rbac.authorization.k8s.io/aggregate-to-admin":"true","rbac.authorization.k8s.io/aggregate-to-edit":"true","rbac.authorization.k8s.io/aggregate-to-view":"true"}` | These labels are applied to the "view-access" ClusterRole and are used to define how to aggregate up the privileges to your RBAC system. The default settings here are reasonably sane. |
+| webhook.certManager | `bool` | `true` | By default, use the [Cert-Manager](https://cert-manager.io) to manage `Certificate` and `Issuer` resouces, which will ultimately populate the `Secret` for the manager service. If you disable this, you must populate the `Secret` yourself. |
+| webhook.create | `bool` | `true` | Whether or not to create the `Certificate` and `ValidatingWebhookConfiguration` and `MutatingWebhookConfiguration` resources or not. If not, significant audit and granular permissions functionality of *Oz* will be lost. |
+| webhook.secret.name | `string` | `"oz-serving-cert"` | Configures the name of a Secret (type: `kubernetes.io/tls`) within the Namespace that holds a valid private key, certificate and CA bundle. The default behavior is for this to be created by a third party plugin (https://cert-manager.io/) that is extremely common and considered the defacto standard for certificate management within Kubernetes. |
+| webhookService.ports[0].name | string | `"https"` |  |
+| webhookService.ports[0].port | int | `9443` |  |
+| webhookService.ports[0].protocol | string | `"TCP"` |  |
+| webhookService.ports[0].targetPort | string | `"webhook-server"` |  |
+| webhookService.type | string | `"ClusterIP"` |  |

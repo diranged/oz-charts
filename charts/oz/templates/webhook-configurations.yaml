@@ -1,0 +1,106 @@
+{{- if .Values.webhook.create }}
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: {{ include "oz.fullname" . }}-webhook
+  annotations:
+    cert-manager.io/inject-ca-from: {{ include "oz.fullname" . }}-serving-cert
+  labels:
+    app.kubernetes.io/component: webhook
+    {{- include "oz.labels" . | nindent 4 }}
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: {{ include "oz.fullname" . }}-controller-manager-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /mutate-crds-wizardofoz-co-v1alpha1-execaccessrequest
+  failurePolicy: Fail
+  name: mexecaccessrequest.kb.io
+  rules:
+  - apiGroups:
+    - crds.wizardofoz.co
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - execaccessrequests
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: {{ include "oz.fullname" . }}-controller-manager-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /mutate-crds-wizardofoz-co-v1alpha1-podaccessrequest
+  failurePolicy: Fail
+  name: mpodaccessrequest.kb.io
+  rules:
+  - apiGroups:
+    - crds.wizardofoz.co
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - podaccessrequests
+  sideEffects: None
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: {{ include "oz.fullname" . }}-webhook
+  annotations:
+    cert-manager.io/inject-ca-from: {{ include "oz.fullname" . }}-serving-cert
+  labels:
+    app.kubernetes.io/component: webhook
+    {{- include "oz.labels" . | nindent 4 }}
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: {{ include "oz.fullname" . }}-controller-manager-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-crds-wizardofoz-co-v1alpha1-execaccessrequest
+  failurePolicy: Fail
+  name: vexecaccessrequest.kb.io
+  rules:
+  - apiGroups:
+    - crds.wizardofoz.co
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - execaccessrequests
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: {{ include "oz.fullname" . }}-controller-manager-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-crds-wizardofoz-co-v1alpha1-podaccessrequest
+  failurePolicy: Fail
+  name: vpodaccessrequest.kb.io
+  rules:
+  - apiGroups:
+    - crds.wizardofoz.co
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - podaccessrequests
+  sideEffects: None
+{{- end }}
