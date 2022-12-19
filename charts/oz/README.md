@@ -1,6 +1,6 @@
 # oz
 
-![Version: 0.2.1](https://img.shields.io/badge/Version-0.2.1-informational?style=flat-square) ![AppVersion: 0.0.0-rc9](https://img.shields.io/badge/AppVersion-0.0.0--rc9-informational?style=flat-square)
+![Version: 0.2.3](https://img.shields.io/badge/Version-0.2.3-informational?style=flat-square) ![AppVersion: 0.0.0-rc10](https://img.shields.io/badge/AppVersion-0.0.0--rc10-informational?style=flat-square)
 
 Installation for the Oz RBAC Controller
 
