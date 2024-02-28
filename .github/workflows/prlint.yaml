@@ -20,7 +20,7 @@ jobs:
               - charts/**
 
       - if: steps.changes.outputs.src == 'true'
-        uses: morrisoncole/pr-lint-action@v1.7.0
+        uses: morrisoncole/pr-lint-action@v1.7.1
         with:
           title-regex: '^\[.*\].*'
           on-failed-regex-fail-action: true
