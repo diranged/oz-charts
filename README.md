@@ -1,3 +1,3 @@
-# Oz-Charts
+# DEPRECATED
 
-Helm Charts for the [Oz RBAC Controller](https://github.com/diranged/oz)
+Charts moved to https://github.com/diranged/oz/tree/main/charts/oz.
